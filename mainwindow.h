@@ -15,7 +15,7 @@ class MainWindow : public QMainWindow
 
 public:
 
-    explicit MainWindow(QSettings &settings, QWidget *parent = nullptr);
+    explicit MainWindow(QWidget *parent = nullptr);
 
     void loadIniFile(QSettings &ini);
 
