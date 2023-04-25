@@ -44,10 +44,6 @@ void MainWindow::loadIniFile(QSettings &ini)
         auto group = splitList.takeFirst(); // BRAKES
         auto name = splitList.join('/');// TiltIDs
         groupKeyMap[group].append(name);
-
-
-        //qDebug() << splitList;
-        //qDebug() << name;
     }
 
     //QStringList groupList = ini.childGroups();
@@ -62,31 +58,6 @@ void MainWindow::loadIniFile(QSettings &ini)
         fillTheTabel(ini, group, keyList);
         ini.endGroup();
     }
-
-      // show the table widget
-      //ini_table->show();
-
-
-
-//    Q_FOREACH(QString group, ini.childGroups()){
-//        ini.beginGroup(group);
-//        const QStringList childKeys = ini.childKeys();
-//        QStringList Keys;
-//        QStringList values;
-
-//        foreach(const QString &childKey, childKeys){
-//            Keys << childKey;
-//            values << ini.value(childKey).toString();
-
-
-//        }
-//        ini.endGroup();
-
-//        //fillTheTabel(group, Keys, values);
-
-
-//    }
-
 
 }
 
