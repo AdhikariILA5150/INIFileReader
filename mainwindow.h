@@ -19,20 +19,16 @@ public:
 
     void loadIniFile(QSettings &ini);
 
-
     void fillTheTabel(QSettings &settings, const QString &group, QStringList value);
+    bool isStringListType(int row) const;
 
 protected Q_SLOTS:
     void saveIniFile();
-
-public:
-    bool isStringListType(int row) const;
 
 private:
     Ui::MainWindow *ui;
 
     QTableWidget* ini_table = new QTableWidget(this);
-
 
     QPushButton *saveBtn;
     QList <int>  rowList;

@@ -111,12 +111,17 @@ void MainWindow::saveIniFile()
         QString value = ini_table->item(i, 2)->text();
 
         // Check current row contain StringList type
-        if (isStringListType(i)) {
+        if (isStringListType(i) || value.contains(',')) {
             QStringList valueList = value.split(',');
+            for(auto &str : valueList)
+                str= str.trimmed();
+
             settings.beginGroup(group);
             settings.setValue(key, valueList);
             settings.endGroup();
         }
+
+
         else {
             settings.beginGroup(group);
             settings.setValue(key, value);
@@ -150,11 +155,11 @@ void MainWindow::fillTheTabel(QSettings &ini, const QString &group, QStringList 
         auto key = keyList[i];
         int row = ini_table->rowCount();
 
-        qDebug()<< "Row count before insert:" << ini_table->rowCount();
+        //qDebug()<< "Row count before insert:" << ini_table->rowCount();
 
         ini_table->insertRow(row);
 
-        qDebug()<< "Row count after insert:" << ini_table->rowCount();
+        //qDebug()<< "Row count after insert:" << ini_table->rowCount();
 
         QTableWidgetItem *groupItem = new QTableWidgetItem(group);
         ini_table->setItem(row, 0, groupItem);
@@ -164,6 +169,12 @@ void MainWindow::fillTheTabel(QSettings &ini, const QString &group, QStringList 
 
 
         QVariant values = ini.value(key);
+        bool okInt;
+        int ival = values.toInt(&okInt);
+        if(okInt){
+             QString("int");
+        }
+
 
         // check if values type is QStringList
         bool is_stringList = QString(values.typeName()) == "QStringList";
@@ -179,6 +190,29 @@ void MainWindow::fillTheTabel(QSettings &ini, const QString &group, QStringList 
             QTableWidgetItem *valueItem = new QTableWidgetItem(joinVal.trimmed());//
             ini_table->setItem(row, 2, valueItem);
         }
+//        else if (values.toString().contains(','))
+//        {
+
+//            auto string_values = values.toString();
+//            qDebug() <<  "Qvarient type :" << values << values.typeName() << values.type();
+
+//            QStringList ListString_values= string_values.split(',');
+//            rowList.append(row);
+//            auto ListString = ListString_values.join(',');
+
+//            QTableWidgetItem *valueItem = new QTableWidgetItem(ListString.trimmed());
+//            ini_table->setItem(row, 2, valueItem);
+
+
+
+
+//        }
+//        else if (values.type() == QVariant::Type::Int)
+//        {
+//            QTableWidgetItem *valueItem = new QTableWidgetItem();
+//            valueItem->setData(Qt::EditRole, values.toInt());
+//            ini_table->setItem(row, 2, valueItem);
+//        }
         else {
             QTableWidgetItem *valueItem = new QTableWidgetItem(ini.value(key).toString().trimmed());
             ini_table->setItem(row, 2, valueItem);
